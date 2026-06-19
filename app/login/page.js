@@ -1,10 +1,10 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { supabase } from "../../lib/supabaseClient"
+import { useState, Suspense } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
+import { supabase } from "../../lib/supabaseClient"
 
-export default function Login() {
+function LoginForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const forcedRole = searchParams.get("role")
@@ -47,36 +47,27 @@ export default function Login() {
       <input
         placeholder="Email"
         onChange={(e) => setEmail(e.target.value)}
-        style={input}
+        style={{ display: "block", marginTop: 10, padding: 10 }}
       />
 
       <input
         placeholder="Password"
         type="password"
         onChange={(e) => setPassword(e.target.value)}
-        style={input}
+        style={{ display: "block", marginTop: 10, padding: 10 }}
       />
 
-      <button onClick={login} style={btn}>
+      <button onClick={login} style={{ marginTop: 15, padding: 10 }}>
         Login
       </button>
     </div>
   )
 }
 
-const input = {
-  display: "block",
-  marginTop: 10,
-  padding: 10,
-  width: 300
-}
-
-const btn = {
-  marginTop: 15,
-  padding: 10,
-  width: 300,
-  background: "#111827",
-  color: "white",
-  border: "none",
-  borderRadius: 8
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <LoginForm />
+    </Suspense>
+  )
 }
